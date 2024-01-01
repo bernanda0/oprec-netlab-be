@@ -4,9 +4,12 @@ import (
 	"database/sql"
 	"log"
 	"os"
+
+	"github.com/bernanda0/oprec-netlab-be/database/sqlc"
+	_ "github.com/lib/pq"
 )
 
-func Instantiate(l *log.Logger) *sql.DB /**sqlc.Queries*/ {
+func Instantiate(l *log.Logger) (*sql.DB, *sqlc.Queries) {
 	DB_USER := os.Getenv("DB_USER")
 	DB_PASS := os.Getenv("DB_PASS")
 	DB_NAME := os.Getenv("DB_NAME")
@@ -22,15 +25,15 @@ func Instantiate(l *log.Logger) *sql.DB /**sqlc.Queries*/ {
 
 	if err1 != nil {
 		l.Println("Error creating DB connection", err1)
-		return nil
+		return nil, nil
 	}
 
 	err2 := db.Ping()
 	if err2 != nil {
 		l.Println("Error connecting to DB ", err2)
-		return nil
+		return nil, nil
 	}
 
 	l.Println("🛢️  DB Connected")
-	return db /*sqlc.New(db)*/
+	return db, sqlc.New(db)
 }
