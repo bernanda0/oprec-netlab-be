@@ -81,7 +81,10 @@ func defineMultiplexer(l *log.Logger, q *sqlc.Queries) http.Handler {
 	mux := http.NewServeMux()
 
 	hello_handler := handlers.NewHello(l)
+	drive_api_handler := handlers.NewDriveApiHandler(l, q, nil)
+
 	mux.Handle("/hello", hello_handler)
+	mux.HandleFunc("/uploadToDrive", drive_api_handler.UploadFileH)
 
 	corsMiddleware := cors.AllowAll().Handler
 

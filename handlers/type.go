@@ -13,6 +13,10 @@ type Handler struct {
 	u *AuthedUser
 }
 
+type DriveApiHandler struct {
+	h *Handler
+}
+
 type AuthedUser struct {
 	UserID   uint   `json:"user_id"`
 	Username string `json:"username"`
