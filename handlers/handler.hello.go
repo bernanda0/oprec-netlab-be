@@ -23,5 +23,5 @@ func (h *Hello) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		apiLog(h.l, h.c, &r.RequestURI, err)
 	}()
 
-	fmt.Fprintf(rw, "Woohoo, server is running baby!!")
+	fmt.Fprintf(rw, "Woohoo, server is running Beee!")
 }
