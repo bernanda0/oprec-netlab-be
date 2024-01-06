@@ -1,7 +1,7 @@
 -- name: CreateSession :one
 INSERT INTO sessions (
   id,
-  account_id,
+  uid,
   username,
   refresh_token,
   is_blocked,

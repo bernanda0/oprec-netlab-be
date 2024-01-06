@@ -2,6 +2,8 @@
 include .env
 export
 
+POSTGRE_CONN_STRING = "postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?options=endpoint%3D${DB_ENDPOINT}"
+
 .PHONY: run-dev run-nodemon psql
 
 # run the server using gin
@@ -14,8 +16,16 @@ run-nodemon:
 
 # run psql with remote host
 psql:
-	psql postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?options=endpoint%3D${DB_ENDPOINT}
+	psql $(POSTGRE_CONN_STRING)
 
 # Example of creating new migration scheme for session table
-migrate-create-session:
-	migrate create -ext sql -dir database/migration -seq session
+migrate-create:
+	migrate create -ext sql -dir database/migration -seq $(name)
+# Command to migrate
+migrate-up:
+	migrate -path database/migration -database $(POSTGRE_CONN_STRING) -verbose up $(n)
+migrate-down:
+	migrate -path database/migration -database $(POSTGRE_CONN_STRING) -verbose down $(n)
+migrate-fix:
+	migrate -path database/migration -database $(POSTGRE_CONN_STRING) force $(v) 
+	@echo "y" | make migrate-down
